@@ -10,6 +10,32 @@ namespace TechJobsConsole
         static List<Dictionary<string, string>> AllJobs = new List<Dictionary<string, string>>();
         static bool IsDataLoaded = false;
 
+        public static List<Dictionary<string, string>> FindByValue(string column, string value)
+        {
+            // load data, if not already loaded
+            LoadData();
+
+            List<Dictionary<string, string>> results = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> job in AllJobs)
+            {
+                foreach (KeyValuePair<string, string> col in job)
+                {
+                    //string aValue = job[column];
+
+                    if (col.Value.ToLower().Contains(value.ToLower()))
+                    {
+                        if (!(results.Contains(job)))
+                        {
+                            results.Add(job);
+                        }
+                    }
+                }
+            }
+                    return results;
+        }
+
+
         public static List<Dictionary<string, string>> FindAll()
         {
             LoadData();
@@ -48,8 +74,10 @@ namespace TechJobsConsole
             foreach (Dictionary<string, string> row in AllJobs)
             {
                 string aValue = row[column];
+                string lower = aValue.ToLower();
 
-                if (aValue.Contains(value))
+                if (lower.Contains(value.ToLower()))
+                    //if (aValue.Contains(value))
                 {
                     jobs.Add(row);
                 }
